@@ -709,6 +709,7 @@ Things the agent must never do. If you catch yourself doing these, stop and fix 
 - **Cookie persistence script included but no forms read from it** — Complete the chain.
 - **OG image points to a file that doesn't exist** — If you write `og:image` referencing `/og-image.png`, create the file or use an existing image. A broken OG image is worse than no OG tag at all. Verify the image path exists before shipping.
 - **UTM-tagged URL run through a shortener that strips params** — Don't shorten UTM URLs unless the shortener preserves query parameters. Most platforms (Twitter, LinkedIn, Reddit) handle long URLs fine. If you must shorten, use a service that passes params through (e.g., Dub, short.io) — never bit.ly-style shorteners that silently drop them.
+- **UTM-tagged links in code comments, commit messages, or internal channels** — UTMs are for external audiences. A link in a code comment, a git commit, or an internal Slack message is not marketing. If someone clicks it, it pollutes your analytics with false attribution. Only tag links that will be clicked by your actual audience from an external context.
 
 ---
 
