@@ -13,24 +13,24 @@ Fill this in once. The agent reads it on every task.
 ```yaml
 # === YOUR CONFIG ===
 brand:
-  name: ""
-  tagline: ""
+  name: ""               # e.g. "utmgate"
+  tagline: ""            # e.g. "Make your agent marketing-aware at ship time"
   voice: ""              # e.g. "technical but friendly, no corporate speak"
   audience: ""           # e.g. "developers building with AI agents"
 
 channels:
-  twitter: ""            # handle, e.g. "@yourhandle"
-  github: ""             # org or username
+  twitter: ""            # e.g. "@yourhandle"
+  github: ""             # e.g. "youruser" or "yourorg"
   linkedin: false        # true if you post there
-  producthunt: false
-  hackernews: true
+  producthunt: false     # true if you launch there
+  hackernews: true       # true if you post Show HN
 
 analytics:
   tool: ""               # ga4 | plausible | umami | none
-  id: ""                 # measurement ID or site ID
+  id: ""                 # e.g. "G-XXXXXXXXXX" (GA4) or "mysite.com" (Plausible)
 
 utm:
-  campaign_prefix: ""    # e.g. "myproject"
+  campaign_prefix: ""    # e.g. "myproject" — used in all campaign names
   allowed_sources:
     - twitter
     - github
@@ -151,6 +151,10 @@ Copy this into the project. Do not import it as a package. Zero dependencies.
 ```javascript
 // utm-persist.js — copy into your project's base layout
 (function () {
+  // Skip on localhost to keep dev cookies clean
+  var host = window.location.hostname;
+  if (host === 'localhost' || host === '127.0.0.1' || host === '0.0.0.0') return;
+
   var defined = function (v) { return typeof v !== 'undefined' && v !== null && v !== ''; };
 
   // Detect top-level domain for cross-subdomain cookies
@@ -235,27 +239,51 @@ Copy this into the project. Do not import it as a package. Zero dependencies.
 })();
 ```
 
-### SPA / Next.js variant
+### SPA / Next.js
 
-For single-page apps, UTMs only appear on the initial page load. Capture them on first render:
+For single-page apps, UTMs only appear on the initial page load — client-side route changes don't re-run scripts in `<head>`.
+
+The simplest approach: add the vanilla `utm-persist.js` script to your HTML shell so it runs once on initial load. Don't over-engineer it.
+
+**Next.js (App Router):** Add a `<Script>` tag in `app/layout.tsx`:
 
 ```typescript
-// useUtmPersist.ts — call once in your root layout/app component
-import { useEffect } from 'react';
+import Script from 'next/script';
 
-export function useUtmPersist() {
-  useEffect(() => {
-    // The vanilla script above works as-is when loaded via <script> in the HTML shell.
-    // For SPAs that don't have a traditional <script> tag, inline the same logic here
-    // or load utm-persist.js in your index.html / _document.tsx <Head>.
-    //
-    // The key point: this must run exactly once on initial page load,
-    // not on client-side route changes.
-  }, []); // empty deps = runs once on mount
+export default function RootLayout({ children }) {
+  return (
+    <html>
+      <body>
+        {children}
+        <Script src="/utm-persist.js" strategy="afterInteractive" />
+      </body>
+    </html>
+  );
 }
 ```
 
-The simplest approach for Next.js: add the script to `app/layout.tsx` or `pages/_document.tsx` as a `<script>` tag. Don't over-engineer it.
+**Next.js (Pages Router):** Add a `<script>` tag in `pages/_document.tsx`:
+
+```typescript
+import { Html, Head, Main, NextScript } from 'next/document';
+
+export default function Document() {
+  return (
+    <Html>
+      <Head />
+      <body>
+        <Main />
+        <NextScript />
+        <script src="/utm-persist.js" />
+      </body>
+    </Html>
+  );
+}
+```
+
+**Vite / CRA:** Add `<script src="/utm-persist.js"></script>` to `index.html` before the closing `</body>` tag.
+
+Copy `utm-persist.js` (the reference implementation above) into your `public/` directory. It runs once on page load, captures UTMs into cookies, and the rest of the app reads from cookies as needed.
 
 ---
 
@@ -394,24 +422,36 @@ Every form the agent builds that leads to user creation gets hidden fields that 
 **React / Next.js hook:**
 
 ```typescript
-function useUtmFields() {
-  const getCookie = (name: string) => {
-    const match = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
-    return match ? decodeURIComponent(match.pop()!) : '';
-  };
+import { useMemo } from 'react';
 
-  return {
-    ft_source: getCookie('__ft_utm_source'),
-    ft_medium: getCookie('__ft_utm_medium'),
-    ft_campaign: getCookie('__ft_utm_campaign'),
-    ft_referrer: getCookie('__ft_utm_referrer'),
-    lt_source: getCookie('__lt_utm_source'),
-    lt_medium: getCookie('__lt_utm_medium'),
-    lt_campaign: getCookie('__lt_utm_campaign'),
-    lt_referrer: getCookie('__lt_utm_referrer'),
-    landing_page: getCookie('__ft_landing_page') || '',
-    signup_page: typeof window !== 'undefined' ? window.location.pathname : '',
-  };
+function useUtmFields() {
+  return useMemo(() => {
+    if (typeof document === 'undefined') {
+      return {
+        ft_source: '', ft_medium: '', ft_campaign: '', ft_referrer: '',
+        lt_source: '', lt_medium: '', lt_campaign: '', lt_referrer: '',
+        landing_page: '', signup_page: '',
+      };
+    }
+
+    const getCookie = (name: string) => {
+      const match = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+      return match ? decodeURIComponent(match.pop()!) : '';
+    };
+
+    return {
+      ft_source: getCookie('__ft_utm_source'),
+      ft_medium: getCookie('__ft_utm_medium'),
+      ft_campaign: getCookie('__ft_utm_campaign'),
+      ft_referrer: getCookie('__ft_utm_referrer'),
+      lt_source: getCookie('__lt_utm_source'),
+      lt_medium: getCookie('__lt_utm_medium'),
+      lt_campaign: getCookie('__lt_utm_campaign'),
+      lt_referrer: getCookie('__lt_utm_referrer'),
+      landing_page: getCookie('__ft_landing_page') || '',
+      signup_page: window.location.pathname,
+    };
+  }, []); // reads cookies once on mount — stable across re-renders
 }
 ```
 
@@ -640,7 +680,7 @@ A README is not documentation. It's a landing page for developers. Every section
 
 Hard constraints. The agent follows these on every task, no exceptions.
 
-1. **Never publish a URL without UTM parameters.** If you can't infer the campaign, ask the user.
+1. **Never publish a URL intended for external audiences without UTM parameters.** Internal docs links, GitHub issue cross-references, and API endpoint URLs in code don't get UTMs. Marketing links, social posts, README links, and landing page CTAs always do. If you can't infer the campaign, ask the user.
 2. **Never create an HTML page without OG tags.** Add them automatically — don't ask.
 3. **Never ship a signup flow without attribution plumbing.** Cookie → form → handler → database. Every step.
 4. **Never use "excited to announce" or "I'm thrilled" in any copy.** Dead phrases. Say what the thing does.
@@ -667,6 +707,8 @@ Things the agent must never do. If you catch yourself doing these, stop and fix 
 - **URLs with UTMs point to pages that don't exist** — Verify every link works before publishing.
 - **Form collects attribution data but the handler ignores it** — Wire it through to the database or remove the hidden fields. A half-built pipeline is worse than none.
 - **Cookie persistence script included but no forms read from it** — Complete the chain.
+- **OG image points to a file that doesn't exist** — If you write `og:image` referencing `/og-image.png`, create the file or use an existing image. A broken OG image is worse than no OG tag at all. Verify the image path exists before shipping.
+- **UTM-tagged URL run through a shortener that strips params** — Don't shorten UTM URLs unless the shortener preserves query parameters. Most platforms (Twitter, LinkedIn, Reddit) handle long URLs fine. If you must shorten, use a service that passes params through (e.g., Dub, short.io) — never bit.ly-style shorteners that silently drop them.
 
 ---
 
