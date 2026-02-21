@@ -1,6 +1,6 @@
 # Integration Guide
 
-How to load utmflow into your coding agent.
+How to load utmgate into your coding agent.
 
 ---
 
@@ -12,7 +12,7 @@ Claude Code reads skill files from `.claude/skills/` in your project directory.
 
 ```bash
 mkdir -p .claude/skills
-cp SKILL.md .claude/skills/utmflow.md
+cp SKILL.md .claude/skills/utmgate.md
 ```
 
 ### Verify
@@ -27,7 +27,7 @@ You can also reference the skill from your project's `CLAUDE.md`:
 # CLAUDE.md
 
 ## Skills
-- Read and follow `.claude/skills/utmflow.md` on every task that involves shipping, deploying, publishing, or creating public-facing pages.
+- Read and follow `.claude/skills/utmgate.md` on every task that involves shipping, deploying, publishing, or creating public-facing pages.
 ```
 
 ---
@@ -40,14 +40,14 @@ Cursor reads rules from `.cursor/rules/` in your project directory.
 
 ```bash
 mkdir -p .cursor/rules
-cp SKILL.md .cursor/rules/utmflow.md
+cp SKILL.md .cursor/rules/utmgate.md
 ```
 
 Cursor will automatically load the file as context when working in your project.
 
 ### Note on file size
 
-If the skill file is too large for Cursor's context window, you can split the config block into a separate `.cursor/rules/utmflow-config.md` and reference it. But try the single file first — it's designed to fit.
+If the skill file is too large for Cursor's context window, you can split the config block into a separate `.cursor/rules/utmgate-config.md` and reference it. But try the single file first — it's designed to fit.
 
 ---
 
@@ -59,14 +59,14 @@ Windsurf reads rules from `.windsurfrules` or `.windsurf/rules/` in your project
 
 ```bash
 mkdir -p .windsurf/rules
-cp SKILL.md .windsurf/rules/utmflow.md
+cp SKILL.md .windsurf/rules/utmgate.md
 ```
 
 ---
 
 ## Other Agents
 
-Any agent that supports project-level instruction files can use utmflow. The general pattern:
+Any agent that supports project-level instruction files can use utmgate. The general pattern:
 
 1. Find where your agent reads project rules (usually a dotfile directory or a config file).
 2. Copy `SKILL.md` into that location.
@@ -126,11 +126,11 @@ If any of these are missing, the skill isn't loaded correctly. Check that the fi
 
 ## Updating
 
-When a new version of utmflow is released:
+When a new version of utmgate is released:
 
 ```bash
 # Re-download or copy the updated SKILL.md
-cp /path/to/new/SKILL.md .claude/skills/utmflow.md
+cp /path/to/new/SKILL.md .claude/skills/utmgate.md
 ```
 
 Your config block at the top won't be overwritten if you keep a backup. Alternatively, keep your config in a separate file and merge after updates.

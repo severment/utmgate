@@ -1,8 +1,8 @@
-# 🤖 CLAUDE.md — utmflow
+# 🤖 CLAUDE.md — utmgate
 
 ## What This Project Is
 
-utmflow is a single markdown skill file (`SKILL.md`) that makes any coding agent marketing-aware at ship time. Not a tool, not an API, not a package — one opinionated file.
+utmgate is a single markdown skill file (`SKILL.md`) that makes any coding agent marketing-aware at ship time. Not a tool, not an API, not a package — one opinionated file.
 
 ## The Problem It Solves
 
@@ -33,7 +33,7 @@ Agentic builders (indie hackers, solopreneurs, dev tool founders) who ship with 
 ## Repo Structure
 
 ```
-utmflow/
+utmgate/
 ├── CLAUDE.md           ← you are here
 ├── README.md           ← dogfooded with the skill's own advice
 ├── SKILL.md            ← the product (the actual skill file)

@@ -1,6 +1,6 @@
-# Contributing to utmflow
+# Contributing to utmgate
 
-utmflow is a single skill file. Contributions should make the file more useful, more accurate, or easier to adopt. Not bigger for the sake of bigger.
+utmgate is a single skill file. Contributions should make the file more useful, more accurate, or easier to adopt. Not bigger for the sake of bigger.
 
 ## What to contribute
 
@@ -57,7 +57,7 @@ The problem this fixes or the gap this fills.
 ## File structure
 
 ```
-utmflow/
+utmgate/
 ├── README.md
 ├── SKILL.md            ← the product — most changes go here
 ├── CONTRIBUTING.md     ← you are here

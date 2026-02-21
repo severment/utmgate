@@ -1,4 +1,4 @@
-# utmflow 📡 — Making your agent marketing-aware at ship time
+# utmgate 📡 — Making your agent marketing-aware at ship time
 
 <!-- badges -->
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
@@ -6,7 +6,7 @@
 [![Cursor](https://img.shields.io/badge/Cursor-compatible-00D1B2.svg)](#cursor)
 [![Zero Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen.svg)](#)
 
-Your agent ships code but forgets to tell anyone. Every URL is "direct / none." Every page is missing OG tags. Every signup has zero attribution. utmflow is one markdown file that fixes all of it — drop it into your agent's skill directory and every ship, deploy, and publish gets the marketing basics handled automatically. Works with Claude Code, Cursor, Windsurf, and any agent that reads project-level instruction files.
+Your agent ships code but forgets to tell anyone. Every URL is "direct / none." Every page is missing OG tags. Every signup has zero attribution. utmgate is one markdown file that fixes all of it — drop it into your agent's skill directory and every ship, deploy, and publish gets the marketing basics handled automatically. Works with Claude Code, Cursor, Windsurf, and any agent that reads project-level instruction files.
 
 ## Quick start
 
@@ -15,15 +15,15 @@ Copy the skill file into your project. Fill in the config. Done.
 ```bash
 # Claude Code
 mkdir -p .claude/skills
-cp SKILL.md .claude/skills/utmflow.md
+cp SKILL.md .claude/skills/utmgate.md
 
 # Cursor
 mkdir -p .cursor/rules
-cp SKILL.md .cursor/rules/utmflow.md
+cp SKILL.md .cursor/rules/utmgate.md
 
 # Windsurf
 mkdir -p .windsurf/rules
-cp SKILL.md .windsurf/rules/utmflow.md
+cp SKILL.md .windsurf/rules/utmgate.md
 ```
 
 Fill in the config block at the top of the copied file:
@@ -66,7 +66,7 @@ Now ask your agent to do anything that ships:
 
 ## What it does
 
-When your agent ships, deploys, or publishes anything, utmflow triggers 8 automatic behaviors. The agent treats these as standing orders, not suggestions.
+When your agent ships, deploys, or publishes anything, utmgate triggers 8 automatic behaviors. The agent treats these as standing orders, not suggestions.
 
 | # | Behavior | Trigger | What happens |
 |---|---|---|---|
@@ -85,14 +85,14 @@ When your agent ships, deploys, or publishes anything, utmflow triggers 8 automa
 
 ```bash
 mkdir -p .claude/skills
-cp SKILL.md .claude/skills/utmflow.md
+cp SKILL.md .claude/skills/utmgate.md
 ```
 
 Or reference it from your project's `CLAUDE.md`:
 
 ```markdown
 ## Skills
-- Read and follow `.claude/skills/utmflow.md` on every task that involves
+- Read and follow `.claude/skills/utmgate.md` on every task that involves
   shipping, deploying, publishing, or creating public-facing pages.
 ```
 
@@ -100,7 +100,7 @@ Or reference it from your project's `CLAUDE.md`:
 
 ```bash
 mkdir -p .cursor/rules
-cp SKILL.md .cursor/rules/utmflow.md
+cp SKILL.md .cursor/rules/utmgate.md
 ```
 
 Cursor auto-loads rules from `.cursor/rules/`. No extra config needed.
@@ -109,7 +109,7 @@ Cursor auto-loads rules from `.cursor/rules/`. No extra config needed.
 
 ```bash
 mkdir -p .windsurf/rules
-cp SKILL.md .windsurf/rules/utmflow.md
+cp SKILL.md .windsurf/rules/utmgate.md
 ```
 
 ### Any other agent

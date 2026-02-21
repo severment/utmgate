@@ -1,4 +1,4 @@
-# utmflow
+# utmgate
 
 > One skill file that makes any coding agent marketing-aware at ship time.
 
@@ -160,9 +160,9 @@ Copy this into the project. Do not import it as a package. Zero dependencies.
     // Try setting a cookie on progressively shorter domains
     for (var i = parts.length - 2; i >= 0; i--) {
       var test = parts.slice(i).join('.');
-      document.cookie = '__utmflow_test=1;domain=.' + test + ';path=/';
-      if (document.cookie.indexOf('__utmflow_test=1') !== -1) {
-        document.cookie = '__utmflow_test=;domain=.' + test + ';path=/;expires=Thu, 01 Jan 1970 00:00:00 GMT';
+      document.cookie = '__utmgate_test=1;domain=.' + test + ';path=/';
+      if (document.cookie.indexOf('__utmgate_test=1') !== -1) {
+        document.cookie = '__utmgate_test=;domain=.' + test + ';path=/;expires=Thu, 01 Jan 1970 00:00:00 GMT';
         return test;
       }
     }
@@ -194,7 +194,7 @@ Copy this into the project. Do not import it as a package. Zero dependencies.
   var referrerValue = isExternal ? ref : 'direct';
 
   var EXPIRY = 90; // days — matches config cookie_expiry_days
-  var SESSION_KEY = '__utmflow_session';
+  var SESSION_KEY = '__utmgate_session';
   var SESSION_WINDOW = 30 * 60 * 1000; // 30 minutes in ms
 
   // Session check: don't overwrite last-touch if within session window
@@ -630,7 +630,7 @@ A README is not documentation. It's a landing page for developers. Every section
 ### Tone
 
 - Write like a person, not a company.
-- Lead with the problem. "Your agent ships code but forgets to tell anyone." not "utmflow is a marketing-aware agent skill."
+- Lead with the problem. "Your agent ships code but forgets to tell anyone." not "utmgate is a marketing-aware agent skill."
 - No buzzwords. No "leverage." No "ecosystem." No "seamlessly."
 - Short paragraphs. The README is scanned, not read.
 

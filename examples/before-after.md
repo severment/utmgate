@@ -1,6 +1,6 @@
 # Before / After Examples
 
-Real examples of what changes when an agent has utmflow loaded. Each section shows what the agent does without the skill vs. with it.
+Real examples of what changes when an agent has utmgate loaded. Each section shows what the agent does without the skill vs. with it.
 
 ---
 
@@ -284,9 +284,9 @@ time it ships, it handles the marketing basics I'd otherwise skip:
 → Attribution cookies that survive navigation
 → Draft tweets and Show HN posts from the project context
 
-It's called utmflow and it's a single markdown file. No package. No API. No build step.
+It's called utmgate and it's a single markdown file. No package. No API. No build step.
 
-https://github.com/user/utmflow?utm_source=linkedin&utm_medium=social&utm_campaign=utmflow-launch
+https://github.com/user/utmgate?utm_source=linkedin&utm_medium=social&utm_campaign=utmgate-launch
 ```
 
 ---
